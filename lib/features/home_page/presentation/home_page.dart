@@ -1,15 +1,19 @@
+import 'package:color_generator/core/presentation/custom_app_bar/custom_app_bar.dart';
 import 'package:color_generator/core/presentation/utils/build_context_extensions/build_context_extensions.dart';
+import 'package:color_generator/features/home_page/presentation/widgets/color_info.dart';
 import 'package:flutter/material.dart';
 import '../../../core/presentation/colors/app_colors.dart';
-import '../../../core/presentation/custom_sider/custom_sider.dart';
 import '../../../core/presentation/main_container/main_container.dart';
+import '../../../core/presentation/theme/widgets/theme_button.dart';
 import '../../../core/presentation/utils/color_utils/color_utils.dart';
 import '../../../core/presentation/utils/maths_utils/maths_utils.dart';
 
 const defaultBgColor = AppColors.lightWarmOrange;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final VoidCallback onToggleTheme;
+
+  const HomePage({super.key, required this.onToggleTheme});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -51,6 +55,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar.home(
+        title: 'Color Generator',
+        centerTitle: true,
+        titleTextStyle: context.textTheme.headlineMedium,
+        actions: [ThemeButton(onToggleTheme: widget.onToggleTheme)],
+      ),
       body: SafeArea(
         child: GestureDetector(
           onTap: _updateBgColorAndColorLabel,
@@ -61,20 +71,15 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Background current color:'),
                     Text(
-                      _colorLabel,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      'Hello there!',
+                      style: context.textTheme.headlineMedium,
                     ),
-
-                    CustomSlider.opacity(
-                      value: _bgOpacity,
-                      min: 0,
-                      max: 1,
-                      onChanged: _updateOpacity,
-                      style: context.sliderTheme.copyWith(
-                        activeTrackColor: AppColors.red,
-                      ),
+                    const SizedBox(height: 16.0),
+                    ColorInfo(
+                      colorLabel: _colorLabel,
+                      opacity: _bgOpacity,
+                      onUpdateOpacity: _updateOpacity,
                     ),
                   ],
                 ),

@@ -2,11 +2,34 @@ import 'package:flutter/material.dart';
 
 import '../colors/app_colors.dart';
 
-final ThemeData appThemeData = ThemeData(
-  useMaterial3: true,
-  colorScheme: _getColorScheme(),
-  sliderTheme: _getSliderTheme(),
-);
+ThemeData baseTheme(Brightness brightness) {
+  final isDark = brightness == Brightness.dark;
+
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    colorScheme: isDark ? _getDarkColorScheme() : _getColorScheme(),
+    sliderTheme: isDark ? _getDarkSliderTheme() : _getSliderTheme(),
+  );
+}
+
+ColorScheme _getDarkColorScheme() {
+  return const ColorScheme(
+    brightness: Brightness.dark,
+
+    primary: AppColors.warmOrange,
+    onPrimary: AppColors.secondaryBlack,
+
+    secondary: AppColors.graphite,
+    onSecondary: AppColors.white,
+
+    surface: AppColors.secondaryBlack,
+    onSurface: AppColors.secondaryWhite,
+
+    error: AppColors.red,
+    onError: AppColors.white,
+  );
+}
 
 ColorScheme _getColorScheme() {
   return const ColorScheme(
@@ -23,6 +46,17 @@ ColorScheme _getColorScheme() {
 
     error: AppColors.red,
     onError: AppColors.white,
+  );
+}
+
+SliderThemeData _getDarkSliderTheme() {
+  return SliderThemeData(
+    activeTrackColor: AppColors.warmOrange,
+    inactiveTrackColor: AppColors.whiteWithOpacity,
+    trackHeight: 10,
+    thumbColor: AppColors.primaryWhite,
+    overlayColor: AppColors.primaryWhiteWithOpacity,
+    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
   );
 }
 

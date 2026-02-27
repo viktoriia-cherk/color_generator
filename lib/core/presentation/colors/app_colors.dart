@@ -3,9 +3,13 @@ import 'dart:ui';
 class AppColors {
   AppColors._();
 
+  static const Color transparent = Color(0x00FFFFFF);
+
   // white
   static const Color white = Color(0xFFFFFFFF);
-  static const Color primaryWhite = Color(0xFFF1ECEB);
+  static const Color whiteWithOpacity = Color(0x67FFFFFF);
+  static const Color primaryWhite = Color(0xFDCCCCCC);
+  static const Color primaryWhiteWithOpacity = Color(0x66CCCCCC);
   static const Color secondaryWhite = Color(0xFFEAEAEA);
   static const Color tertiaryWhite = Color(0xFFF5F5F5);
 
@@ -20,5 +24,6 @@ class AppColors {
   // red
   static const Color red = Color(0xFFB00020);
   static const Color warmOrange = Color(0xFFC26E3D);
+  static const Color warmOrangeWithOpacity = Color(0x67C26E3D);
   static const Color lightWarmOrange = Color(0xFFBD8F77);
 }

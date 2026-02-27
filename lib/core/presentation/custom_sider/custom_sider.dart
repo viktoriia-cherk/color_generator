@@ -28,7 +28,6 @@ class CustomSlider extends StatefulWidget {
     String? label,
     required ValueChanged<double> onChanged,
     int? divisions,
-    SliderThemeData? style,
   }) => CustomSlider(
     value: value,
     min: min,
