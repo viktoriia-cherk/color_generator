@@ -1,6 +1,7 @@
 import 'package:color_generator/core/presentation/utils/build_context_extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/presentation/custom_sider/custom_sider.dart';
+import '../../../../core/presentation/text/text_copier.dart';
 
 class ColorInfo extends StatefulWidget {
   final String colorLabel;
@@ -33,9 +34,14 @@ class _ColorInfoState extends State<ColorInfo> {
           ),
         ),
         const SizedBox(height: 16.0),
-        Text(
-          widget.colorLabel,
-          style: context.textTheme.bodyLarge?.copyWith(color: widget.textColor),
+        TextCopier(
+          text: widget.colorLabel,
+          child: Text(
+            widget.colorLabel,
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: widget.textColor,
+            ),
+          ),
         ),
         const SizedBox(height: 16.0),
         CustomSlider.opacity(
