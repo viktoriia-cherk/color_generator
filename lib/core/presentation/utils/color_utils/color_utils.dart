@@ -15,9 +15,14 @@ RgbModel generateRandomRgb() {
   );
 }
 
-Color getNewRgbaColor() {
+Color getNewRgbaColor({double? opacity}) {
   final rgb = generateRandomRgb();
-  return Color.fromRGBO(rgb.r, rgb.g, rgb.b, defaultOpacity);
+  return Color.fromRGBO(rgb.r, rgb.g, rgb.b, opacity ?? defaultOpacity);
+}
+
+Color updateColorOpacity({required double opacity, required Color clr}) {
+  final rgb = getRgbComponents(clr);
+  return Color.fromRGBO(rgb.r, rgb.g, rgb.b, opacity);
 }
 
 RgbModel getRgbComponents(Color color) {

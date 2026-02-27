@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'core/presentation/theme/theme.dart';
 import 'features/home_page/presentation/home_page.dart';
 
 void main() {
@@ -12,10 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: appThemeData,
+      debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
   }
