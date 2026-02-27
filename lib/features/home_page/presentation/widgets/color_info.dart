@@ -4,12 +4,14 @@ import '../../../../core/presentation/custom_sider/custom_sider.dart';
 
 class ColorInfo extends StatefulWidget {
   final String colorLabel;
+  final Color textColor;
   final double opacity;
   final ValueChanged<double> onUpdateOpacity;
 
   const ColorInfo({
     super.key,
     required this.colorLabel,
+    required this.textColor,
     required this.opacity,
     required this.onUpdateOpacity,
   });
@@ -24,9 +26,17 @@ class _ColorInfoState extends State<ColorInfo> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('Current color:', style: context.textTheme.headlineSmall),
+        Text(
+          'Current color:',
+          style: context.textTheme.headlineSmall?.copyWith(
+            color: widget.textColor,
+          ),
+        ),
         const SizedBox(height: 16.0),
-        Text(widget.colorLabel, style: context.textTheme.bodyLarge),
+        Text(
+          widget.colorLabel,
+          style: context.textTheme.bodyLarge?.copyWith(color: widget.textColor),
+        ),
         const SizedBox(height: 16.0),
         CustomSlider.opacity(
           value: widget.opacity,

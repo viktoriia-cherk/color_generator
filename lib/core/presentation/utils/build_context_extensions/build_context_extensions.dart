@@ -6,4 +6,9 @@ extension ThemeExtension on BuildContext {
   Brightness get brightness => Theme.of(this).brightness;
 
   bool get isDarkThemeMode => brightness == Brightness.dark;
+
+  Brightness _estimateColor(Color color) =>
+      ThemeData.estimateBrightnessForColor(color);
+
+  bool isDarkTextColor(Color color) => _estimateColor(color) == Brightness.dark;
 }

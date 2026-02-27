@@ -54,6 +54,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = context.isDarkTextColor(_bgColor)
+        ? AppColors.white
+        : AppColors.graphite;
+
     return Scaffold(
       appBar: CustomAppBar.home(
         title: 'Color Generator',
@@ -73,11 +77,14 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Hello there!',
-                      style: context.textTheme.headlineMedium,
+                      style: context.textTheme.headlineMedium?.copyWith(
+                        color: textColor,
+                      ),
                     ),
                     const SizedBox(height: 16.0),
                     ColorInfo(
                       colorLabel: _colorLabel,
+                      textColor: textColor,
                       opacity: _bgOpacity,
                       onUpdateOpacity: _updateOpacity,
                     ),
