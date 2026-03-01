@@ -18,6 +18,7 @@ class ColorGeneratorEvent with _$ColorGeneratorEvent {
       SetOpacity;
 
   const factory ColorGeneratorEvent.getColorsHistory() = GetColorsHistory;
+  const factory ColorGeneratorEvent.resetHistory() = ResetHistory;
   const factory ColorGeneratorEvent.setColorsHistory({required Color color}) =
       SetColorsHistory;
 }

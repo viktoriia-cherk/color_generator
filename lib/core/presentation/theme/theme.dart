@@ -27,8 +27,7 @@ ThemeData baseTheme(Brightness brightness) {
         fontSize: 12,
       ),
       showUnselectedLabels: true,
-      type: BottomNavigationBarType
-          .fixed, // щоб завжди показувались обидві вкладки
+      type: BottomNavigationBarType.fixed,
     ),
   );
 }
@@ -43,7 +42,7 @@ ColorScheme _getDarkColorScheme() {
     secondary: AppColors.graphite,
     onSecondary: AppColors.white,
 
-    surface: AppColors.secondaryBlack,
+    surface: AppColors.graphite,
     onSurface: AppColors.secondaryWhite,
 
     error: AppColors.red,

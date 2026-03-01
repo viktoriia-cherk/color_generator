@@ -99,7 +99,9 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
     final parsedValue = roundToDecimals(opacity);
     final newColor = getNewRgbaColor(opacity: parsedValue);
 
-    _clrBloc.add(ColorGeneratorEvent.setBackgroundColor(color: newColor));
+    _clrBloc
+      ..add(ColorGeneratorEvent.setBackgroundColor(color: newColor))
+      ..add(ColorGeneratorEvent.setColorsHistory(color: newColor));
   }
 
   void _updateOpacity(double value) {
@@ -110,7 +112,9 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
       clr: _clrBloc.state.data.bgColor,
     );
 
-    _clrBloc.add(ColorGeneratorEvent.setBackgroundColor(color: updatedColor));
+    _clrBloc
+      ..add(ColorGeneratorEvent.setBackgroundColor(color: updatedColor))
+      ..add(ColorGeneratorEvent.setColorsHistory(color: updatedColor));
   }
 
   void _resetColor() => _clrBloc.add(
@@ -134,10 +138,8 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
       showcaseKeys: showcaseKeys,
       child: Scaffold(
         appBar: CustomAppBar.colorGeneratorPage(
-          title: 'Color Generator',
           centerTitle: false,
           titleTextStyle: context.textTheme.headlineMedium,
-          // leading:
           actions: [
             Showcase(
               key: _firstKey,

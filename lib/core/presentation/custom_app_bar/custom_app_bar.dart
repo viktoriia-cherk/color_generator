@@ -32,7 +32,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   });
 
   factory CustomAppBar.colorGeneratorPage({
-    required String title,
     List<Widget>? actions,
     Color? backgroundColor,
     double? appBarHeight,
@@ -41,7 +40,28 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     TextStyle? titleTextStyle,
   }) => CustomAppBar(
     backgroundColor: AppColors.transparent,
-    title: title,
+    title: 'Color Generator',
+    leading: const SizedBox(),
+    leadingWidth: 0,
+    actions: actions,
+    elevation: 0,
+    surfaceTintColor: surfaceTintColor,
+    centerTitle: centerTitle,
+    titleTextStyle: titleTextStyle,
+  );
+
+  factory CustomAppBar.history({
+    List<Widget>? actions,
+    Color? backgroundColor,
+    double? appBarHeight,
+    Color? surfaceTintColor,
+    bool? centerTitle,
+    TextStyle? titleTextStyle,
+    String? subtitle,
+  }) => CustomAppBar(
+    backgroundColor: AppColors.transparent,
+    title: 'History',
+    subtitle: subtitle,
     leading: const SizedBox(),
     leadingWidth: 0,
     actions: actions,

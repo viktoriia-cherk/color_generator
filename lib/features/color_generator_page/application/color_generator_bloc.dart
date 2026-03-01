@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../core/application/app_bloc/app_bloc.dart';
 import '../../../core/infrastructure/services/shared_storage/shared_storage_keys.dart';
 import '../../../core/infrastructure/services/shared_storage/shared_storage_service.dart';
 import '../domain/color_history_entry.dart';
@@ -22,18 +20,16 @@ part 'color_generator_state.dart';
 class ColorGeneratorBloc
     extends Bloc<ColorGeneratorEvent, ColorGeneratorState> {
   final SharedStorageService _storageService;
-  final AppBloc _appBloc;
 
-  ColorGeneratorBloc(this._storageService, this._appBloc)
+  ColorGeneratorBloc(this._storageService)
     : super(const ColorGeneratorState.initial(ColorGeneratorStateData())) {
     on<InitColorGenerator>(_onInitColorGenerator);
     on<GetBackgroundColor>(_onGetBackgroundColor);
     on<SetDefaultColor>(_onSetDefaultColor);
     on<SetBackgroundColor>(_onSetBackgroundColor);
-    on<SetLabel>(_onSetLabel);
-    on<SetOpacity>(_onSetOpacity);
     on<GetColorsHistory>(_onGetColorsHistory);
     on<SetColorsHistory>(_onSetColorsHistory);
+    on<ResetHistory>(_onResetHistory);
   }
 
   Future<void> _onInitColorGenerator(
@@ -50,7 +46,6 @@ class ColorGeneratorBloc
     final savedBgColor = _storageService.getString(APP_BG_COLOR);
 
     if (savedBgColor == null) {
-
       add(SetDefaultColor(color: AppColors.secondaryBlack));
       return;
     }
@@ -72,12 +67,13 @@ class ColorGeneratorBloc
     SetDefaultColor event,
     Emitter<ColorGeneratorState> emit,
   ) async {
+    emit(ColorGeneratorState.loading(state.data.copyWith(isLoading: true)));
+
     final defaultClr = event.color;
     final label = colorToRgbaString(defaultClr);
     final opacity = defaultClr.a;
 
     await _storageService.setString(APP_BG_COLOR, label);
-    print('defaultClr ---------------$defaultClr');
 
     emit(
       ColorGeneratorState.loaded(
@@ -85,6 +81,7 @@ class ColorGeneratorBloc
           backgroundColor: defaultClr,
           backgroundColorLabel: label,
           opacity: opacity,
+          isLoading: false,
         ),
       ),
     );
@@ -94,6 +91,8 @@ class ColorGeneratorBloc
     SetBackgroundColor event,
     Emitter<ColorGeneratorState> emit,
   ) async {
+    emit(ColorGeneratorState.loading(state.data.copyWith(isLoading: true)));
+
     final newColor = event.color;
     final clrToString = colorToRgbaString(newColor);
 
@@ -105,23 +104,10 @@ class ColorGeneratorBloc
           backgroundColor: newColor,
           backgroundColorLabel: clrToString,
           opacity: newColor.a,
+          isLoading: false,
         ),
       ),
     );
-  }
-
-  void _onSetLabel(SetLabel event, Emitter<ColorGeneratorState> emit) async {
-    final label = event.label;
-    emit(
-      ColorGeneratorState.loaded(
-        state.data.copyWith(backgroundColorLabel: label),
-      ),
-    );
-  }
-
-  void _onSetOpacity(SetOpacity event, Emitter<ColorGeneratorState> emit) {
-    final opacity = event.opacity;
-    emit(ColorGeneratorState.loaded(state.data.copyWith(opacity: opacity)));
   }
 
   void _onGetColorsHistory(
@@ -152,6 +138,8 @@ class ColorGeneratorBloc
     SetColorsHistory event,
     Emitter<ColorGeneratorState> emit,
   ) async {
+    emit(ColorGeneratorState.loading(state.data.copyWith(isLoading: true)));
+
     final newColor = event.color;
     final history = state.data.history;
     final clrToString = colorToRgbaString(newColor);
@@ -174,7 +162,26 @@ class ColorGeneratorBloc
     );
 
     emit(
-      ColorGeneratorState.loaded(state.data.copyWith(history: updatedHistory)),
+      ColorGeneratorState.loaded(
+        state.data.copyWith(history: updatedHistory, isLoading: false),
+      ),
+    );
+  }
+
+  Future<void> _onResetHistory(
+    ResetHistory event,
+    Emitter<ColorGeneratorState> emit,
+  ) async {
+    emit(ColorGeneratorState.loading(state.data.copyWith(isLoading: true)));
+
+    Timer(Duration(seconds: 5), () {});
+
+    await _storageService.remove(APP_COLORS_HISTORY);
+
+    emit(
+      ColorGeneratorState.loaded(
+        state.data.copyWith(history: [], isLoading: false),
+      ),
     );
   }
 }

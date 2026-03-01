@@ -24,11 +24,18 @@ abstract class ColorGeneratorStateData with _$ColorGeneratorStateData {
     @Default(null) String? backgroundColorLabel,
     @Default(1) double opacity,
     @Default([]) List<ColorHistoryEntry> history,
+    @Default(false) bool isLoading,
   }) = _ColorGeneratorStateData;
 
   Color get bgColor => backgroundColor ?? AppColors.secondaryBlack;
   String get label => backgroundColorLabel ?? '';
-  double get opacityValue => opacity ?? 1;
+  double get opacityValue => opacity;
 
-  List<ColorHistoryEntry> get historyList => history;
+  List<ColorHistoryEntry> get historyList {
+    final sorted = List<ColorHistoryEntry>.from(history);
+    sorted.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    return sorted;
+  }
+
+  Color parsedColor(String color) => rgbaStringToColor(color);
 }
