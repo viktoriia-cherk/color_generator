@@ -1,9 +1,12 @@
 import 'package:color_generator/core/presentation/utils/build_context_extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../../../../core/presentation/custom_sider/custom_sider.dart';
 import '../../../../core/presentation/text/text_copier.dart';
 
 class ColorInfo extends StatefulWidget {
+  final GlobalKey keyForText;
+  final GlobalKey keyForSlider;
   final String colorLabel;
   final Color textColor;
   final double opacity;
@@ -11,7 +14,9 @@ class ColorInfo extends StatefulWidget {
 
   const ColorInfo({
     super.key,
+    required this.keyForText,
     required this.colorLabel,
+    required this.keyForSlider,
     required this.textColor,
     required this.opacity,
     required this.onUpdateOpacity,
@@ -34,21 +39,29 @@ class _ColorInfoState extends State<ColorInfo> {
           ),
         ),
         const SizedBox(height: 16.0),
-        TextCopier(
-          text: widget.colorLabel,
-          child: Text(
-            widget.colorLabel,
-            style: context.textTheme.bodyLarge?.copyWith(
-              color: widget.textColor,
+        Showcase(
+          key: widget.keyForText,
+          description: "You can copy color by long press!",
+          child: TextCopier(
+            text: widget.colorLabel,
+            child: Text(
+              widget.colorLabel,
+              style: context.textTheme.bodyLarge?.copyWith(
+                color: widget.textColor,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 16.0),
-        CustomSlider.opacity(
-          value: widget.opacity,
-          min: 0,
-          max: 1,
-          onChanged: widget.onUpdateOpacity,
+        Showcase(
+          key: widget.keyForSlider,
+          description: "You can change color opacity!",
+          child: CustomSlider.opacity(
+            value: widget.opacity,
+            min: 0,
+            max: 1,
+            onChanged: widget.onUpdateOpacity,
+          ),
         ),
       ],
     );

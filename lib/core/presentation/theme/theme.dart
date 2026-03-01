@@ -10,6 +10,26 @@ ThemeData baseTheme(Brightness brightness) {
     brightness: brightness,
     colorScheme: isDark ? _getDarkColorScheme() : _getColorScheme(),
     sliderTheme: isDark ? _getDarkSliderTheme() : _getSliderTheme(),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: isDark
+          ? AppColors.secondaryBlack
+          : AppColors.secondaryWhite,
+      selectedItemColor: isDark ? AppColors.warmOrange : AppColors.graphite,
+      unselectedItemColor: isDark
+          ? AppColors.whiteWithOpacity
+          : AppColors.graphiteShadow,
+      selectedLabelStyle: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontWeight: FontWeight.normal,
+        fontSize: 12,
+      ),
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType
+          .fixed, // щоб завжди показувались обидві вкладки
+    ),
   );
 }
 

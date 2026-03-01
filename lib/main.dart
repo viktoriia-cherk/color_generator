@@ -1,9 +1,15 @@
+import 'package:color_generator/core/application/app_bloc/app_bloc.dart';
+import 'package:color_generator/core/presentation/routes/app_router.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/infrastructure/injections/injections.dart';
+import 'core/infrastructure/services/app_provider/app_bloc_provider.dart';
 import 'core/presentation/theme/theme.dart';
-import 'features/home_page/presentation/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -15,24 +21,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
+  late final AppRouter _appRouter;
 
-  void _toggleTheme() {
-    setState(() {
-      _themeMode = _themeMode == ThemeMode.light
-          ? ThemeMode.dark
-          : ThemeMode.light;
-    });
+  @override
+  void initState() {
+    _appRouter = AppRouter();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: baseTheme(Brightness.light),
-      darkTheme: baseTheme(Brightness.dark),
-      themeMode: _themeMode,
-      debugShowCheckedModeBanner: false,
-      home: HomePage(onToggleTheme: _toggleTheme),
+    return MultiBlocProvider(
+      providers: AppBlocProvider.providers,
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) => MaterialApp.router(
+          theme: baseTheme(Brightness.light),
+          darkTheme: baseTheme(Brightness.dark),
+          themeMode: state.data.themeMode,
+          debugShowCheckedModeBanner: false,
+          routerConfig: _appRouter.config(),
+        ),
+      ),
     );
   }
 }

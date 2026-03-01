@@ -7,6 +7,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final String? subtitle;
   final Widget? leading;
+  final double? leadingWidth;
   final List<Widget>? actions;
   final Color? backgroundColor;
   final double? elevation;
@@ -20,6 +21,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.title,
     this.subtitle,
     this.leading,
+    this.leadingWidth,
     this.actions,
     this.backgroundColor,
     this.elevation,
@@ -29,7 +31,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.titleTextStyle,
   });
 
-  factory CustomAppBar.home({
+  factory CustomAppBar.colorGeneratorPage({
     required String title,
     List<Widget>? actions,
     Color? backgroundColor,
@@ -41,6 +43,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     backgroundColor: AppColors.transparent,
     title: title,
     leading: const SizedBox(),
+    leadingWidth: 0,
     actions: actions,
     elevation: 0,
     surfaceTintColor: surfaceTintColor,
@@ -70,7 +73,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             padding: const EdgeInsets.all(6.0),
             child: const BackButton(),
           ),
-      leadingWidth: widget.leading != null ? 0 : 56,
+      leadingWidth: widget.leadingWidth ?? 56,
       scrolledUnderElevation: 0,
       elevation: widget.elevation,
       surfaceTintColor: widget.surfaceTintColor,

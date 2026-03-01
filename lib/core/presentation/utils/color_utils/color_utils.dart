@@ -39,3 +39,19 @@ String colorToRgbaString(Color clr) {
 
   return 'Color(${rgb.r}, ${rgb.g}, ${rgb.b}, $a)';
 }
+
+Color rgbaStringToColor(String str) {
+  final regex = RegExp(r'Color\((\d+), (\d+), (\d+), ([\d.]+)\)');
+  final match = regex.firstMatch(str);
+
+  if (match == null || match.groupCount != 4) {
+    throw FormatException('Invalid color string format: $str');
+  }
+
+  final r = int.parse(match.group(1)!);
+  final g = int.parse(match.group(2)!);
+  final b = int.parse(match.group(3)!);
+  final a = double.parse(match.group(4)!); // 0.0–1.0
+
+  return Color.fromRGBO(r, g, b, a);
+}
