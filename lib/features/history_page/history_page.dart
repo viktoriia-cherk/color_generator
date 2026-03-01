@@ -67,6 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
         : AppColors.graphite;
 
     return ToolTips(
+      onComplete: (_, __) {},
       showcaseKeys: showcaseKeys,
       child: Scaffold(
         // appBar: CustomAppBar.home(

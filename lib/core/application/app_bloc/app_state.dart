@@ -16,10 +16,9 @@ abstract class AppStateData with _$AppStateData {
   const AppStateData._();
 
   const factory AppStateData({
-    @Default(ThemeMode.light) ThemeMode themeMode,
-    @Default(false) bool firstTimeInApp,
+    @Default(null) ThemeMode? themeMode,
+    @Default(true) bool firstTimeInApp,
   }) = _AppStateData;
 
-  ThemeMode get currentThemeMode => themeMode;
   bool get isDarkThemeMode => themeMode == ThemeMode.dark;
 }

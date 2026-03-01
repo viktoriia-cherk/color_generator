@@ -41,7 +41,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final isFirstTimeInApp = _storageService.getBool(FIRST_TIME_IN_APP);
     emit(
       AppState.loaded(
-        state.data.copyWith(firstTimeInApp: isFirstTimeInApp ?? false),
+        state.data.copyWith(firstTimeInApp: isFirstTimeInApp ?? true),
       ),
     );
   }
@@ -50,8 +50,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     SetIsFirstTimeInApp event,
     Emitter<AppState> emit,
   ) async {
-    await _storageService.setBool(FIRST_TIME_IN_APP, true);
-    emit(AppState.loaded(state.data.copyWith(firstTimeInApp: true)));
+    await _storageService.setBool(FIRST_TIME_IN_APP, false);
+
+    emit(AppState.loaded(state.data.copyWith(firstTimeInApp: false)));
   }
 
   Future<void> _onGetAppTheme(GetAppTheme event, Emitter<AppState> emit) async {

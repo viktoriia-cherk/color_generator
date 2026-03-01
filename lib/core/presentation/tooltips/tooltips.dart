@@ -5,11 +5,15 @@ class ToolTips extends StatefulWidget {
   final List<GlobalKey> showcaseKeys;
   final Widget child;
   final bool autoStart;
+  final OnShowcaseCallback? onComplete;
+  final OnDismissCallback? onDismiss;
 
   const ToolTips({
     super.key,
     required this.showcaseKeys,
     required this.child,
+    this.onComplete,
+    this.onDismiss,
     this.autoStart = true,
   });
 
@@ -61,6 +65,8 @@ class _ToolTipsState extends State<ToolTips> {
           hideActionWidgetForShowcase: [lastKey],
         ),
       ],
+      onComplete: widget.onComplete,
+      onDismiss: widget.onDismiss,
     );
   }
 

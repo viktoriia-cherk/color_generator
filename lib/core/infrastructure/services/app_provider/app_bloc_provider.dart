@@ -11,7 +11,8 @@ class AppBlocProvider {
     BlocProvider<AppBloc>(
       create: (_) => getIt<AppBloc>()
         ..add(const AppEvent.init())
-        ..add(AppEvent.getAppTheme()),
+        ..add(AppEvent.getAppTheme())
+        ..add(AppEvent.getIsFirstTimeInApp()),
     ),
     BlocProvider<ColorGeneratorBloc>(
       create: (_) => getIt<ColorGeneratorBloc>()

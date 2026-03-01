@@ -50,7 +50,7 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
 
     final isFirstTimeInApp = _appBloc.state.data.firstTimeInApp;
 
-    if (!isFirstTimeInApp) {
+    if (isFirstTimeInApp) {
       _dialogShown = true;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -59,7 +59,12 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
     }
   }
 
-  Future<void> _showTooltipDialog(BuildContext context) async {
+  void _setFirstTimeInApp() => _appBloc.add(AppEvent.setIsFirstTimeInApp());
+
+  Future<void> _showTooltipDialog(
+    BuildContext context, [
+    bool fromAppBar = false,
+  ]) async {
     await showDialog(
       context: context,
       barrierDismissible: false,
@@ -67,10 +72,17 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
         return ShowTooltipDialog(
           title: 'Tooltip tour',
           description: 'Would you like to see the tooltip?',
-          onCancel: () => Navigator.pop(context),
-          onSubmit: () {
-            Navigator.pop(context);
+          onCancel: () {
+            _setFirstTimeInApp();
 
+            Navigator.pop(context);
+          },
+          onSubmit: () {
+            if (!fromAppBar) {
+              _setFirstTimeInApp();
+            }
+
+            Navigator.pop(context);
             setState(() {
               _tooltipsAutoStart = true;
             });
@@ -105,11 +117,19 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
     ColorGeneratorEvent.setDefaultColor(color: context.colorScheme.surface),
   );
 
+  void _onCompleteGuideTour() {
+    setState(() {
+      _tooltipsAutoStart = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final showcaseKeys = [_firstKey, _secondKey, _thirdKey, _fourthKey];
 
     return ToolTips(
+      onComplete: (_, __) => _onCompleteGuideTour(),
+      onDismiss: (_) => _onCompleteGuideTour(),
       autoStart: _tooltipsAutoStart,
       showcaseKeys: showcaseKeys,
       child: Scaffold(
@@ -128,7 +148,7 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
               key: _secondKey,
               description: "Show modal that could start tooltip tour",
               child: TooltipButton(
-                onStartTooltip: () => _showTooltipDialog(context),
+                onStartTooltip: () => _showTooltipDialog(context, true),
               ),
             ),
             Showcase(
