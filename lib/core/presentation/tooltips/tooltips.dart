@@ -37,13 +37,19 @@ class _ToolTipsState extends State<ToolTips> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
+            style: showcaseContext.elevatedButton.style?.copyWith(
+              backgroundColor: WidgetStateProperty.all(
+                showcaseContext.isDarkThemeMode
+                    ? AppColors.warmOrange
+                    : AppColors.secondaryWhite,
+              ),
+            ),
             onPressed: () => ShowcaseView.get().dismiss(),
             child: Text('Skip', style: showcaseContext.textTheme.bodyLarge),
           ),
         ),
       ),
       blurValue: 1,
-      autoPlayDelay: const Duration(seconds: 3),
       globalTooltipActionConfig: const TooltipActionConfig(
         position: TooltipActionPosition.inside,
         alignment: MainAxisAlignment.spaceBetween,

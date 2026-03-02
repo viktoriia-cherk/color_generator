@@ -5,6 +5,8 @@ extension ThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   Brightness get brightness => Theme.of(this).brightness;
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  ElevatedButtonThemeData get elevatedButton =>
+      Theme.of(this).elevatedButtonTheme;
 
   bool get isDarkThemeMode => brightness == Brightness.dark;
 
