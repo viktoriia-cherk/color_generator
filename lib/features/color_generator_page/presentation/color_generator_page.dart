@@ -123,7 +123,7 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
       context: context,
       builder: (context) {
         return ShowCustomDialog(
-          title: 'Do you want to reset background color to default?',
+          title: 'Reset background to default',
           description: 'Are you sure?',
           onCancel: () => Navigator.pop(context),
           onSubmit: () {

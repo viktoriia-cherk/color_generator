@@ -92,22 +92,33 @@ class _HistoryPageState extends State<HistoryPage> {
             child: MainContainer(
               child: state.maybeWhen(
                 loading: (_) => Center(child: CircularProgressIndicator()),
-                loaded: (_) => ListView.builder(
-                  itemCount: state.data.historyList.length,
-                  itemBuilder: (context, index) {
-                    final historyItem = history[index];
-                    final color = state.data.parsedColor(historyItem.color);
-                    return ColorHistoryCard(
-                      color: color,
-                      label: historyItem.color,
-                      onDoubleTap: () => _showUpdateBgColorDialog(
-                        context,
-                        color,
-                        historyItem.color,
+                loaded: (updatedState) {
+                  if (updatedState.historyList.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'There is no history yet.',
+                        style: context.textTheme.bodyLarge,
                       ),
                     );
-                  },
-                ),
+                  }
+                  return ListView.builder(
+                    itemCount: updatedState.historyList.length,
+                    itemBuilder: (context, index) {
+                      final historyItem = updatedState.historyList[index];
+                      final color = updatedState.parsedColor(historyItem.color);
+
+                      return ColorHistoryCard(
+                        color: color,
+                        label: historyItem.color,
+                        onDoubleTap: () => _showUpdateBgColorDialog(
+                          context,
+                          color,
+                          historyItem.color,
+                        ),
+                      );
+                    },
+                  );
+                },
                 orElse: () => const SizedBox(),
               ),
             ),
