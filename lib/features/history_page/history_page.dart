@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/presentation/colors/app_colors.dart';
 import '../../../core/presentation/main_container/main_container.dart';
+import '../../core/presentation/modal/modal.dart';
 import '../../core/presentation/reset_button/reset_button.dart';
 
 const defaultBgColor = AppColors.lightWarmOrange;
@@ -32,6 +33,23 @@ class _HistoryPageState extends State<HistoryPage> {
     _clrBloc.add(ColorGeneratorEvent.resetHistory());
   }
 
+  Future<void> _showDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return ShowCustomDialog(
+          title: 'Delete history',
+          description: 'Are you sure?',
+          onCancel: () => Navigator.pop(context),
+          onSubmit: () {
+            Navigator.pop(context);
+            _resetColorsHistory();
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ColorGeneratorBloc, ColorGeneratorState>(
@@ -42,7 +60,7 @@ class _HistoryPageState extends State<HistoryPage> {
             subtitle: 'Your last ${history.length} colors',
             centerTitle: true,
             titleTextStyle: context.textTheme.headlineMedium,
-            actions: [ResetButton(onResetData: _resetColorsHistory)],
+            actions: [ResetButton(onResetData: () => _showDialog(context))],
           ),
           body: SafeArea(
             bottom: false,

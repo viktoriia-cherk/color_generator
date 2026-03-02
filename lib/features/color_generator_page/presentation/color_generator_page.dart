@@ -69,7 +69,7 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return ShowTooltipDialog(
+        return ShowCustomDialog(
           title: 'Tooltip tour',
           description: 'Would you like to see the tooltip?',
           onCancel: () {

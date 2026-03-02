@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ShowTooltipDialog extends StatelessWidget {
+class ShowCustomDialog extends StatelessWidget {
   final String title;
   final String description;
   final VoidCallback onCancel;
   final VoidCallback onSubmit;
 
-  const ShowTooltipDialog({
+  const ShowCustomDialog({
     super.key,
     required this.title,
     required this.description,
