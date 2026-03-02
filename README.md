@@ -1,16 +1,32 @@
-# color_generator
+# Flutter Color Generator 🎨
 
-A new Flutter project.
+A Flutter app to generate RGBA colors with interactive features for designers and developers.
+
+## Features
+
+- **Two-tab footer** for easy navigation between main screens
+- **BLoC** for clean state management
+- **Shared Preferences** to save settings and color history
+- **Dependency Injection** for better development experience
+
+### What You Can Do
+
+- Tap anywhere on the home page to **generate a random RGBA color**
+- Display the **color code as text** (tap to copy)
+- Adjust **opacity** with a slider
+- **Switch themes** dynamically
+- Launch a **tooltip / guided tour**
+- Reset to the **default background color**
+- Keep a **history of the last 20 colors**, each copyable via long press
+- **Clear the entire color history**
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To start the app do the following steps:
+- flutter clean
+- flutter pub get
+- dart run build_runner build --delete-conflicting-outputs
+- flutter run
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
