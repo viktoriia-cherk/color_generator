@@ -8,84 +8,108 @@ ThemeData baseTheme(Brightness brightness) {
   return ThemeData(
     useMaterial3: true,
     brightness: brightness,
-    colorScheme: isDark ? _getDarkColorScheme() : _getColorScheme(),
-    sliderTheme: isDark ? _getDarkSliderTheme() : _getSliderTheme(),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: isDark
-          ? AppColors.secondaryBlack
-          : AppColors.secondaryWhite,
-      selectedItemColor: isDark ? AppColors.warmOrange : AppColors.graphite,
-      unselectedItemColor: isDark
+    colorScheme: isDark ? _darkColorScheme : _lightColorScheme,
+    sliderTheme: _getSliderTheme(isDark),
+    elevatedButtonTheme: _getElevatedButtonTheme(isDark),
+    outlinedButtonTheme: _getOutlinedButtonTheme(isDark),
+    bottomNavigationBarTheme: _getBottomNavTheme(isDark),
+  );
+}
+
+const _darkColorScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: AppColors.warmOrange,
+  onPrimary: AppColors.secondaryBlack,
+  secondary: AppColors.graphite,
+  onSecondary: AppColors.white,
+  surface: AppColors.graphite,
+  onSurface: AppColors.secondaryWhite,
+  error: AppColors.red,
+  onError: AppColors.white,
+);
+
+const _lightColorScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: AppColors.graphite,
+  onPrimary: AppColors.tertiaryWhite,
+  secondary: AppColors.warmOrange,
+  onSecondary: AppColors.white,
+  surface: AppColors.secondaryWhite,
+  onSurface: AppColors.secondaryBlack,
+  error: AppColors.red,
+  onError: AppColors.white,
+);
+
+SliderThemeData _getSliderTheme(bool isDark) {
+  return SliderThemeData(
+    activeTrackColor: isDark ? AppColors.warmOrange : AppColors.white,
+    inactiveTrackColor: isDark
+        ? AppColors.whiteWithOpacity
+        : AppColors.graphiteShadow,
+    trackHeight: 10,
+    thumbColor: isDark ? AppColors.primaryWhite : AppColors.graphite,
+    overlayColor: isDark
+        ? AppColors.primaryWhiteWithOpacity
+        : AppColors.graphiteShadow,
+    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+  );
+}
+
+const _selectedNavLabelStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 14,
+);
+
+const _unselectedNavLabelStyle = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontSize: 12,
+);
+
+BottomNavigationBarThemeData _getBottomNavTheme(bool isDark) {
+  return BottomNavigationBarThemeData(
+    backgroundColor: isDark
+        ? AppColors.secondaryBlack
+        : AppColors.secondaryWhite,
+    selectedItemColor: isDark ? AppColors.warmOrange : AppColors.graphite,
+    unselectedItemColor: isDark
+        ? AppColors.whiteWithOpacity
+        : AppColors.graphiteShadow,
+    selectedLabelStyle: _selectedNavLabelStyle,
+    unselectedLabelStyle: _unselectedNavLabelStyle,
+    showUnselectedLabels: true,
+    type: BottomNavigationBarType.fixed,
+  );
+}
+
+ElevatedButtonThemeData _getElevatedButtonTheme(bool isDark) {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: isDark ? AppColors.warmOrange : AppColors.graphite,
+      foregroundColor: isDark ? AppColors.secondaryBlack : AppColors.white,
+      disabledBackgroundColor: isDark
           ? AppColors.whiteWithOpacity
           : AppColors.graphiteShadow,
-      selectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-      unselectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.normal,
-        fontSize: 12,
-      ),
-      showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
+      disabledForegroundColor: isDark
+          ? AppColors.graphite
+          : AppColors.secondaryWhite,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 0,
     ),
   );
 }
 
-ColorScheme _getDarkColorScheme() {
-  return const ColorScheme(
-    brightness: Brightness.dark,
+OutlinedButtonThemeData _getOutlinedButtonTheme(bool isDark) {
+  final color = isDark ? AppColors.warmOrange : AppColors.graphite;
 
-    primary: AppColors.warmOrange,
-    onPrimary: AppColors.secondaryBlack,
-
-    secondary: AppColors.graphite,
-    onSecondary: AppColors.white,
-
-    surface: AppColors.graphite,
-    onSurface: AppColors.secondaryWhite,
-
-    error: AppColors.red,
-    onError: AppColors.white,
-  );
-}
-
-ColorScheme _getColorScheme() {
-  return const ColorScheme(
-    brightness: Brightness.light,
-
-    primary: AppColors.graphite,
-    onPrimary: AppColors.tertiaryWhite,
-
-    secondary: AppColors.warmOrange,
-    onSecondary: AppColors.white,
-
-    surface: AppColors.secondaryWhite,
-    onSurface: AppColors.secondaryBlack,
-
-    error: AppColors.red,
-    onError: AppColors.white,
-  );
-}
-
-SliderThemeData _getDarkSliderTheme() {
-  return SliderThemeData(
-    activeTrackColor: AppColors.warmOrange,
-    inactiveTrackColor: AppColors.whiteWithOpacity,
-    trackHeight: 10,
-    thumbColor: AppColors.primaryWhite,
-    overlayColor: AppColors.primaryWhiteWithOpacity,
-    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
-  );
-}
-
-SliderThemeData _getSliderTheme() {
-  return SliderThemeData(
-    activeTrackColor: AppColors.white,
-    inactiveTrackColor: AppColors.graphiteShadow,
-    trackHeight: 10,
-    thumbColor: AppColors.graphite,
-    overlayColor: AppColors.graphiteShadow,
-    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+  return OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      foregroundColor: color,
+      side: BorderSide(color: color, width: 2),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    ),
   );
 }

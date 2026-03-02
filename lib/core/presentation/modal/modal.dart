@@ -30,11 +30,13 @@ class ShowCustomDialog extends StatelessWidget {
             const SizedBox(height: 12),
             Text(description, textAlign: TextAlign.center),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+
               children: [
-                TextButton(onPressed: onCancel, child: const Text('No')),
                 ElevatedButton(onPressed: onSubmit, child: const Text('Yes')),
+                const SizedBox(height: 16),
+                OutlinedButton(onPressed: onCancel, child: const Text('No')),
               ],
             ),
           ],
