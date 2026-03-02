@@ -33,7 +33,30 @@ class _HistoryPageState extends State<HistoryPage> {
     _clrBloc.add(ColorGeneratorEvent.resetHistory());
   }
 
-  Future<void> _showDialog(BuildContext context) async {
+  void _onSetNewColor(Color color) {
+    Navigator.pop(context);
+    _clrBloc.add(ColorGeneratorEvent.setBackgroundColor(color: color));
+  }
+
+  Future<void> _showUpdateBgColorDialog(
+    BuildContext context,
+    Color color,
+    String label,
+  ) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return ShowCustomDialog(
+          title: label,
+          description: 'Set new background color on home page.',
+          onCancel: () => Navigator.pop(context),
+          onSubmit: () => _onSetNewColor(color),
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteHistoryDialog(BuildContext context) async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -60,7 +83,9 @@ class _HistoryPageState extends State<HistoryPage> {
             subtitle: 'Your last ${history.length} colors',
             centerTitle: true,
             titleTextStyle: context.textTheme.headlineMedium,
-            actions: [ResetButton(onResetData: () => _showDialog(context))],
+            actions: [
+              ResetButton(onResetData: () => _showDeleteHistoryDialog(context)),
+            ],
           ),
           body: SafeArea(
             bottom: false,
@@ -75,6 +100,11 @@ class _HistoryPageState extends State<HistoryPage> {
                     return ColorHistoryCard(
                       color: color,
                       label: historyItem.color,
+                      onDoubleTap: () => _showUpdateBgColorDialog(
+                        context,
+                        color,
+                        historyItem.color,
+                      ),
                     );
                   },
                 ),

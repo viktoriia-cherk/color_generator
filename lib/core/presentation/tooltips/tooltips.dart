@@ -1,3 +1,5 @@
+import 'package:color_generator/core/presentation/colors/app_colors.dart';
+import 'package:color_generator/core/presentation/utils/build_context_extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -36,13 +38,7 @@ class _ToolTipsState extends State<ToolTips> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () => ShowcaseView.get().dismiss(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xffEE5366),
-            ),
-            child: const Text(
-              'Skip',
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            ),
+            child: Text('Skip', style: showcaseContext.textTheme.bodyLarge),
           ),
         ),
       ),
@@ -56,12 +52,12 @@ class _ToolTipsState extends State<ToolTips> {
       globalTooltipActions: [
         TooltipActionButton(
           type: TooltipDefaultActionType.previous,
-          textStyle: const TextStyle(color: Colors.white),
+          textStyle: const TextStyle(color: AppColors.white),
           hideActionWidgetForShowcase: [widget.showcaseKeys[0]],
         ),
         TooltipActionButton(
           type: TooltipDefaultActionType.next,
-          textStyle: const TextStyle(color: Colors.white),
+          textStyle: const TextStyle(color: AppColors.white),
           hideActionWidgetForShowcase: [lastKey],
         ),
       ],

@@ -6,8 +6,14 @@ import '../../../core/presentation/utils/build_context_extensions/build_context_
 class ColorHistoryCard extends StatefulWidget {
   final Color color;
   final String label;
+  final void Function() onDoubleTap;
 
-  const ColorHistoryCard({super.key, required this.color, required this.label});
+  const ColorHistoryCard({
+    super.key,
+    required this.color,
+    required this.label,
+    required this.onDoubleTap,
+  });
 
   @override
   State<ColorHistoryCard> createState() => _ColorHistoryCardState();
@@ -31,6 +37,7 @@ class _ColorHistoryCardState extends State<ColorHistoryCard> {
       duration: const Duration(milliseconds: 150),
       curve: Curves.easeInOut,
       child: TextCopier(
+        onDoubleTap: widget.onDoubleTap,
         onLongPressStart: _onLongPressStart,
         onLongPressEnd: _onLongPressEnd,
         text: widget.label,
@@ -67,7 +74,15 @@ class _ColorHistoryCardState extends State<ColorHistoryCard> {
                     const SizedBox(height: 6),
 
                     Text(
-                      'Copy me by long press 😊',
+                      'Tap twice to update home page color! 🎨',
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: AppColors.primaryBlack,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+
+                    Text(
+                      'Copy color by long press 😊',
                       style: context.textTheme.bodySmall?.copyWith(
                         color: AppColors.primaryBlack,
                       ),

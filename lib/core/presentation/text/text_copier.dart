@@ -6,6 +6,7 @@ class TextCopier extends StatefulWidget {
   final String text;
   final void Function(LongPressStartDetails)? onLongPressStart;
   final void Function(LongPressEndDetails)? onLongPressEnd;
+  final void Function()? onDoubleTap;
 
   const TextCopier({
     super.key,
@@ -13,6 +14,7 @@ class TextCopier extends StatefulWidget {
     required this.text,
     this.onLongPressStart,
     this.onLongPressEnd,
+    this.onDoubleTap,
   });
   @override
   State<TextCopier> createState() => _TextCopierState();
@@ -34,6 +36,7 @@ class _TextCopierState extends State<TextCopier> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onDoubleTap: widget.onDoubleTap,
       onLongPressStart: widget.onLongPressStart,
       onLongPressEnd: widget.onLongPressEnd,
       onLongPress: () => onLogPress(context),
