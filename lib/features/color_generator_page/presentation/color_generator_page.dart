@@ -128,7 +128,13 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final showcaseKeys = [_firstKey, _secondKey, _thirdKey, _fourthKey];
+    final showcaseKeys = [
+      _firstKey,
+      _secondKey,
+      _thirdKey,
+      _fourthKey,
+      _fifthKey,
+    ];
 
     return MultiBlocListener(
       listeners: [
