@@ -53,7 +53,8 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
     if (isFirstTimeInApp) {
       _dialogShown = true;
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (!mounted) return;
         _showTooltipDialog(context);
       });
     }
@@ -117,6 +118,23 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
     ColorGeneratorEvent.setDefaultColor(color: context.colorScheme.surface),
   );
 
+  Future<void> _showResetBgColorDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return ShowCustomDialog(
+          title: 'Do you want to reset background color to default?',
+          description: 'Are you sure?',
+          onCancel: () => Navigator.pop(context),
+          onSubmit: () {
+            Navigator.pop(context);
+            _resetColor();
+          },
+        );
+      },
+    );
+  }
+
   void _onCompleteGuideTour() {
     setState(() {
       _tooltipsAutoStart = false;
@@ -170,7 +188,9 @@ class _ColorGeneratorPageState extends State<ColorGeneratorPage> {
               Showcase(
                 key: _thirdKey,
                 description: "Reset background color",
-                child: ResetButton(onResetData: _resetColor),
+                child: ResetButton(
+                  onResetData: () => _showResetBgColorDialog(context),
+                ),
               ),
             ],
           ),
